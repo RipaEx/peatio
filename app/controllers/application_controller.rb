@@ -45,6 +45,7 @@ private
   end
 
   def set_gon
+    Dir.chdir(defined?(::Rails) ? ::Rails.root : Dir.pwd)    
     gon.environment = Rails.env
     gon.local = I18n.locale
     gon.market = current_market.attributes

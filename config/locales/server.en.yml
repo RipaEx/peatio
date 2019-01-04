@@ -549,7 +549,7 @@ en:
     ask: Ask
     bid: Bid
     notification:
-      title: Peatio Exchange
+      title: Ripa Exchange
       enabled: Notification enabled.
       new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
   back: Back

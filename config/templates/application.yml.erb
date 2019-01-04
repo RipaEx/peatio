@@ -1,5 +1,5 @@
 defaults: &defaults
-  TIMEZONE: 'Paris'
+  TIMEZONE: 'Rome'
 
   # Configure Redis URL, for a TCP connection:
   # `redis://:[password]@[hostname]:[port]/[db]`
@@ -7,10 +7,10 @@ defaults: &defaults
   REDIS_URL:      redis://localhost:6379
 
   # Comma-separated list of administrators.
-  ADMIN: 'admin@peatio.tech'
+  ADMIN: 'admin@peatio.tech, gsit80@gmail.com'
 
   # Application URL configuration variables.
-  URL_HOST:                peatio.tech
+  URL_HOST:                local.demo.ripaex.io
   URL_SCHEME:              http
   FORCE_SECURE_CONNECTION: 'false' # Set to "true" to disable access via unsecured HTTP, send HSTS headers and use secure cookies.
 
@@ -60,8 +60,8 @@ defaults: &defaults
   SENTRY_DSN_FRONTEND: ~          # Specify Sentry DSN used for JavaScript application.
 
   # Customize page metadata like title, description & keywords for landing, cabinet & admin modules.
-  METADATA_TITLE:       Peatio Exchange
-  METADATA_DESCRIPTION: The Opensource Cryptocurrency Exchange
+  METADATA_TITLE:       Ripa Exchange
+  METADATA_DESCRIPTION: Crypto Asset Marketplace
   METADATA_KEYWORDS:    Peatio,Opensource,Exchange,Cryptocurrency
 
   # Customize bank details which is shown at fiat deposit page. You are free to supply HTML here.
@@ -175,8 +175,8 @@ development:
   OAUTH2_SIGN_IN_PROVIDER:    google
 
   # Development configuration variables for sign in with Google.
-  GOOGLE_CLIENT_ID:           1044454023387-emhp5vmfnp5cf1n9juk09g8gcckrova7.apps.googleusercontent.com
-  GOOGLE_CLIENT_SECRET:       tAFZvO200-0z3MpCyOpkPH0G
+  GOOGLE_CLIENT_ID:           837112148356-lch2epbf5sqgplj4n2dhvk66tbdmb48h.apps.googleusercontent.com
+  GOOGLE_CLIENT_SECRET:       7JrUSUqscTIcQXas6gmjlIa2
 
   # Development configuration variables for sign in with Auth0.
   AUTH0_OAUTH2_DOMAIN:        peatio-playground.auth0.com

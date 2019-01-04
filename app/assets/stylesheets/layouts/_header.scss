@@ -22,13 +22,13 @@ header {
     margin:     0 auto;
     width:      auto;
     height:     auto;
-    max-width:  120px;
+    max-width:  150px;
     max-height: 50px;
     transform:  translateY(-50%);
     position:   absolute;
     top:        50%;
     left:       5px;
-    filter:     invert(100%);
+//    filter:     invert(100%);
   }
 
   .dropdown-menu li:hover .sub-menu {

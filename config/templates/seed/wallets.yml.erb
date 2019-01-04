@@ -9,7 +9,7 @@
   kind:             deposit  # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1        # Number of signatures required for performing withdraw.
   max_balance:      0.0
-  status:           active
+  status:           disabled
   gateway:          geth     # Gateway client name.
   settings:
     #
@@ -25,7 +25,7 @@
   kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      100.0
-  status:           active
+  status:           disabled
   gateway:          geth    # Gateway client name.
   settings:
     #
@@ -42,7 +42,7 @@
   kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      1000.0
-  status:           active
+  status:           disabled
   gateway:          geth    # Gateway client name.
   settings:
     #
@@ -58,7 +58,7 @@
   kind:             fee  # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1           # Number of signatures required for performing withdraw.
   max_balance:      100.0
-  status:           active
+  status:           disabled
   gateway:          geth        # Gateway client name.
   settings:
     #
@@ -70,7 +70,7 @@
   blockchain_key:   btc-testnet
   currency_id:      btc
   # Address where deposits will be collected to.
-  address:          '2N4qYjye5yENLEkz4UkLFxzPaxJatF3kRwf'  # IMPORTANT: Always wrap this value in quotes!
+  address:          '2NDJcF8vGZmH5KPY8pU2Rgixj3kaigxy7ZU'  # IMPORTANT: Always wrap this value in quotes!
   kind:             deposit   # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1         # Number of signatures required for performing withdraw.
   max_balance:      0.0
@@ -79,45 +79,37 @@
   settings:
     #
     # Bitcoind gateway client settings.
-    uri:          http://user:password@127.0.0.1:18332
+    uri:          http://bitcoin:password@51.15.39.95:18332
 
 - name:             Bitcoin Hot Wallet
   blockchain_key:   btc-testnet
   currency_id:        btc
   # Address where deposits will be collected to.
-  address:          '2N4qYjye5yENLEkz4UkLFxzPaxJatF3kRwf'  # IMPORTANT: Always wrap this value in quotes!
+  address:          '2MzNvpM8tMDc7zoQRCbtCUnvQquoPraVhNU'  # IMPORTANT: Always wrap this value in quotes!
   kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      5.0
   status:           active
-  gateway:          bitgo   # Gateway client name.
+  gateway:          bitcoind  # Gateway client name.
   settings:
     #
-    # BitGo gateway client settings.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
+    # Bitcoind gateway client settings.
+    uri:          http://bitcoin:password@51.15.39.95:18332
 
 - name:             Bitcoin Warm Wallet
   blockchain_key:   btc-testnet
   currency_id:      btc
   # Address where deposits will be collected to.
-  address:          '2N4qYjye5yENLEkz4UkLFxzPaxJatF3kRwf'  # IMPORTANT: Always wrap this value in quotes!
+  address:          '2NDJcF8vGZmH5KPY8pU2Rgixj3kaigxy7ZU'  # IMPORTANT: Always wrap this value in quotes!
   kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      50.0
   status:           active
-  gateway:          bitgo   # Gateway client name.
+  gateway:          bitcoind  # Gateway client name.
   settings:
     #
-    # BitGo gateway client settings.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
+    # Bitcoind gateway client settings.
+    uri:          http://bitcoin:password@51.15.39.95:18332
 
 - name:             Bitcoincash Deposit Wallet
   blockchain_key:   bch-testnet
@@ -127,7 +119,7 @@
   kind:             deposit       # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1             # Number of signatures required for performing withdraw.
   max_balance:      0.0
-  status:           active
+  status:           disabled
   gateway:          bitcoincashd  # Gateway client name.
   settings:
     #
@@ -142,7 +134,7 @@
   kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      5.0
-  status:           active
+  status:           disabled
   gateway:          bitgo   # Gateway client name.
   settings:
     #
@@ -161,7 +153,7 @@
   kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      50.0
-  status:           active
+  status:           disabled
   gateway:          bitgo   # Gateway client name.
   settings:
     #
@@ -181,7 +173,7 @@
   kind:             deposit    # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1          # Number of signatures required for performing withdraw.
   max_balance:      0.0
-  status:           active
+  status:           disabled
   gateway:          litecoind  # Gateway client name.
   settings:
     #
@@ -196,7 +188,7 @@
   kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      5.0
-  status:           active
+  status:           disabled
   gateway:          bitgo   # Gateway client name.
   settings:
     #
@@ -215,7 +207,7 @@
   kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      50.0
-  status:           active
+  status:           disabled
   gateway:          bitgo   # Gateway client name.
   settings:
     #
@@ -235,7 +227,7 @@
   kind:             deposit # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      0.0
-  status:           active
+  status:           disabled
   gateway:          dashd   # Gateway client name.
   settings:
     #
@@ -250,7 +242,7 @@
   kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      5.0
-  status:           active
+  status:           disabled
   gateway:          bitgo   # Gateway client name.
   settings:
     #
@@ -269,7 +261,7 @@
   kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      50.0
-  status:           active
+  status:           disabled
   gateway:          bitgo   # Gateway client name.
   settings:
     #
@@ -288,7 +280,7 @@
   kind:             deposit  # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1        # Number of signatures required for performing withdraw.
   max_balance:      0.0
-  status:           active
+  status:           disabled
   gateway:          rippled     # Gateway client name.
   settings:
     #
@@ -304,7 +296,7 @@
   kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      100.0
-  status:           active
+  status:           disabled
   gateway:          rippled    # Gateway client name.
   settings:
     #
@@ -320,7 +312,7 @@
   kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
   nsig:             1       # Number of signatures required for performing withdraw.
   max_balance:      1000.0
-  status:           active
+  status:           disabled
   gateway:          rippled    # Gateway client name.
   settings:
     #

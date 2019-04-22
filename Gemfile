@@ -68,6 +68,8 @@ end
 
 group :development do
   gem 'annotate', '~> 2.7'
+  gem 'ruby-debug-ide'
+  gem 'debase'
   gem 'ruby-prof', '~> 0.17.0', require: false
 end
 

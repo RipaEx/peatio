@@ -24,7 +24,17 @@ class SessionsController < ApplicationController
   def destroy
     destroy_member_sessions(current_user.id)
     reset_session
-    redirect_to root_path
+    if ENV['BARONG_DOMAIN']
+      redirectURLAUTHProviderLogout = ENV.fetch('BARONG_DOMAIN') + '/accounts/sign_out'
+      if ENV['LOGOUT_WITH_CALLBACK']
+        callbackURL = ERB::Util.url_encode(ENV.fetch('URL_SCHEME') + '://' + ENV.fetch('URL_HOST') + '/auth/barong')
+        redirectURLAUTHProviderLogout += '?callback=' + callbackURL
+      end
+      Rails.logger.info('Logout URL: ' + redirectURLAUTHProviderLogout)
+      redirect_to redirectURLAUTHProviderLogout
+    else 
+      redirect_to root_path
+    end  
   end
 
 private

@@ -336,6 +336,7 @@ en:
       success: Settings updated successfully.
       failure: Invalid passcode. Please try again.
       index:
+        safety_instruction: In order to protect your bitcoins and personal information, we strongly suggest that you use Two-Factor Authentication.
         reauthenticate: Authentication
         auth-verified: Please confirm your identity first.
         deposits_must_be_permitted: Please, pass the corresponding verification steps to deposit funds.

@@ -29,6 +29,15 @@ Peatio::Application.routes.draw do
   scope module: :private do
     resources :settings, only: [:index]
 
+    namespace :settings do  
+      get 'edit_profile' => 'edit_profile#index'
+      get 'phones' => 'edit_profile#step1'
+      get 'profiles' => 'edit_profile#step2'
+      get 'documents' => 'edit_profile#step3'
+#      resources :profiles,  only: %i[new create], controller: 'edit_profile'
+#      resources :documents, only: %i[new create], controller: 'edit_profile'
+    end      
+
     resources :withdraw_destinations, only: %i[ create update ]
 
     resources :funds, only: [:index] do

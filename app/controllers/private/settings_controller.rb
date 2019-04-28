@@ -4,7 +4,6 @@
 module Private
   class SettingsController < BaseController
     def index
-      @warning = t("private.settings.index.safety_instruction")
       if ENV["BARONG_DOMAIN"]
         if !current_user.nil?
           currentUserAuth = Authentication.find_by!(provider: 'barong', member_id: current_user.id)
@@ -27,6 +26,7 @@ module Private
             if !response.nil?
               barongAccountJSON = JSON.parse(response.body)
               Rails.logger.debug("Barong Account inspect: " + barongAccountJSON.inspect)
+              session[:barongAccount] = barongAccountJSON
               @barongAccount = OpenStruct.new
               @barongAccount.uid = barongAccountJSON["uid"]
               @barongAccount.email = barongAccountJSON["email"]

@@ -1,6 +1,6 @@
 /* basic style extend
 ------------------------------------------------------- */
-g { color: $gray-400; }
+g { color: $gray-600; }
 
 * + i[class^=fa], i[class^=fa] + * { margin-left: $icon-gutter-width; }
 
@@ -20,7 +20,7 @@ table.table { td.vertical-center { vertical-align: middle !important; } }
 /* TODO UNKNDOW CLASS
 ------------------------------------------------------ */
 .number { font-family: monospace; }
-.number-label { color: $gray-400; margin-right: 5px; }
+.number-label { color: $gray-600; margin-right: 5px; }
 span.hint { margin-top: 6px; }
-.text-ignore { color: $gray-400; }
+.text-ignore { color: $gray-600; }
 

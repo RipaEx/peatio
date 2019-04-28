@@ -342,12 +342,71 @@ en:
         deposits_must_be_permitted: Please, pass the corresponding verification steps to deposit funds.
         withdraws_must_be_permitted: Please, pass the corresponding verification steps to withdraw funds.
         trading_must_be_permitted: Please, pass the corresponding verification steps to enable trading.
+        email:
+          title: E-mail verification
+          description: Your e-mail has not been verified, click the "Send Mail" button
+            to complete the verification
+          description-activated: Your email adress has been verified successfully,
+            remember and protect this e-mail address, it is the single certificate
+            for your  account
+          resend: Send it again
+          activated: Verified
+          go: Set
+        phone_number:
+          title: Phone Number
+          description: Providing a phone number will make your account more secure.
+            You can quickly reset your password and your account operations will be
+            notified.
+          go: Set
+          verified: Verified
+          hint: "Verified number %{hint}"
+        two_factor_auth:
+          title: Two-Factor Authentication
+          description: Two-Factor Authentication provides another layer of security
+            to your account.
+          enable: Enable
+          disable: Disable
+        verification:
+          title: Verify Account - Level
+          description: Help keep the bad guys out of your account by using both your
+            password and your phone
+          go: Submit
+          verified: Verified
+        asset_passwords:
+          title: Asset password
+          description: The asset password will be needed when you withdraw your money.
+            It is strongly recommended that you do not use the same password as your
+            account password!
+          go: Set
+        passwords:
+          title: Password
+          description: This password is required for login, please remember it.
+          go: Change Password
+          set: Set
+        security:
+          title: Security - 2FA
+          description: Two-Factor Authentication provides another layer of security to your account. Change Your account password. Enable API keys.
+          enable: Enable
+          disable: Disable
+          go: Submit
+        api_tokens:
+          title: API Tokens
+          description: Create and manage your API tokens.
+          go: Set
+        referral:
+          title: Referral Program
+          description: To start earning BTC just invite someone to signup on RipaEx with that code. It's easy. Click on button to copy to clipboard and share code with your friends.
+          go: Available Soon
   guides:
     private:
       settings:
         panel: Settings
         index:
           intro: Admin and revise your profile.
+        edit_profile:
+          panel: Verify Your Profile
+          index:
+            intro: Admin and revise your profile.          
     panels:
       balance: Account
     sessions:

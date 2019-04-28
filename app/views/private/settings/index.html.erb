@@ -8,25 +8,100 @@
   <% if current_user.admin? %>
     <span class="badge badge-warning">ADMIN</span>
   <% end %>
-  <p class="text-warning"><%= @warning %></p>
+  <p class="text-warning"><%= t("private.settings.index.safety_instruction") %></p>
 <% end %>
 
 
 
-<table id="setting_list">
+<table class="table" id="setting_list">
   <tr>
     <td class="col-xs-2 text-center vertical-center">
-      <i class="fa fa-envelope-o fa-2x"> </i>
+      <i class="far fa-envelope fa-2x"> </i>
     </td>
     <td class="col-xs-15">
-            <p class="text-ignore"><%= @barongAccount.inspect %></p>
-            <% if @barongAccount.state.eql?('active') %>
-              <p class="text-ignore">ACTIVATED</p>
-            <% else %>    
-              <p class="text-ignore">NOT ACTIVATED</p>
-            <% end %> 
+      <h4><%= t(".email.title") %></h4>
+      <% if @barongAccount.state.eql?('active') %>
+        <p class="text-ignore"><%= t('.email.description-activated') %></p>
+      <% else %>    
+        <p class="text-ignore"><%= t('.email.description') %></p>
+      <% end %> 
     </td>
     <td class="col-xs-7 vertical-center">
+      <% if @barongAccount.state.eql?('active') %>
+        <a href="#" class="btn btn-success btn-block disabled" role="button"> 
+          <i class="fa fa-check-circle">
+            <span><%= t('.email.activated') %></span>
+          </i>
+        </a>
+      <% end %>    
+    </td>
+  </tr>
+  <tr>
+    <td class="col-xs-2 text-center vertical-center">
+      <i class="far fa-thumbs-up fa-2x"> </i>
+    </td>
+    <td class="col-xs-15">
+      <h4>
+        <span><%= t(".verification.title") %>: <%= @barongAccount.level %></span>
+        <i class="fa fa-bolt text-warning"></i>
+      </h4>
+      <p class="text-ignore"><%= t('.verification.description') %></p>
+    </td>
+    <td class="col-xs-7 vertical-center">
+      <% if @barongAccount.level == 3 %>
+        <a href="#" class="btn btn-success btn-block" role="button"> 
+          <i class="fa fa-check-circle">
+            <span><%= t('.verification.verified') %></span>
+          </i>
+        </a>
+      <% elsif @barongAccount.level == 1 ||  @barongAccount.level == 2 %>
+        <a href="/settings/edit_profile" class="btn btn-primary btn-block" role="button"> 
+          <span><%= t('.verification.go') %></span>
+        </a>
+      <% end %>    
+    </td>
+  </tr>
+  <tr>
+    <td class="col-xs-2 text-center vertical-center">
+      <i class="fas fa-unlock-alt fa-2x"> </i>
+    </td>
+    <td class="col-xs-15">
+      <h4>
+        <span><%= t(".security.title") %>: <%= @barongAccount.otp_enabled %></span>
+        <i class="fa fa-bolt text-warning"></i>
+      </h4>
+      <p class="text-ignore"><%= t('.security.description') %></p>
+    </td>
+    <td class="col-xs-7 vertical-center">
+      <% if @barongAccount.otp_enabled? %>
+        <a href="#" class="btn btn-success btn-block" role="button"> 
+          <i class="fa fa-check-circle">
+            <span><%= t('.security.disable') %></span>
+          </i>
+        </a>
+      <% else %>    
+        <a href="#" class="btn btn-primary btn-block" role="button"> 
+          <span><%= t('.security.enable') %></span>
+        </a>
+      <% end %>    
+    </td>
+  </tr>
+  <tr>
+    <td class="col-xs-2 text-center vertical-center">
+      <i class="fas fa-chart-pie fa-2x"> </i>
+    </td>
+    <td class="col-xs-15">
+      <h4>
+        <span><%= t(".referral.title") %></span>
+      </h4>
+      <p class="text-ignore"><%= t('.referral.description') %></p>
+    </td>
+    <td class="col-xs-7 vertical-center">
+      <a href="#" class="btn btn-warning btn-block disabled" role="button"> 
+        <i class="far fa-clock">
+          <span><%= t('.referral.go') %></span>
+        </i>
+      </a>
     </td>
   </tr>
 </table>

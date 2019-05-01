@@ -15,6 +15,7 @@ Rails.application.config.assets.precompile.concat \
     admin.css
     market.css
     admin.js
+    web.js
     funds.js
     html5.js
     market.js

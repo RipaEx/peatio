@@ -7,16 +7,14 @@ module Private
       if ENV["BARONG_DOMAIN"]
         if !current_user.nil?
           currentUserAuth = Authentication.find_by!(provider: 'barong', member_id: current_user.id)
-          Rails.logger.debug('currentUserAuth: ' + currentUserAuth.inspect)
           if !currentUserAuth.token.nil?
             # set variables
-            barongBaseURL = ENV.fetch("BARONG_DOMAIN") + "/api/v1/accounts/me"
+            barongBaseURL = ENV.fetch("BARONG_DOMAIN")
             apiURL = "/api/v1/accounts/me"
             token = "Bearer " + currentUserAuth.token
             # init connection object
             connection = Faraday.new(:url => barongBaseURL) do |c|
               c.use Faraday::Request::UrlEncoded
-#              c.use Faraday::Response::Logger
               c.use Faraday::Adapter::NetHttp
             end
             # send request

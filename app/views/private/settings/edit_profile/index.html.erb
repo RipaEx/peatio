@@ -1,59 +1,122 @@
-
 <div class="text-center pt-1">
-  <h2 class="font-weight-bold pt-4 pb-4"><span class="text-muted">Verification > </span>Add mobile phone</h2>
+  <h2 class="font-weight-bold pt-4 pb-4">
+    <% if @step == 2%>
+      <span class="text-muted"><%= @step.to_s %>. Verification > </span>Add mobile phone
+    <% elsif @step == 3%>
+      <span class="text-muted"><%= @step.to_s %>. Verification > </span>Fill in personal information
+    <% elsif @step == 4%>
+      <span class="text-muted"><%= @step.to_s %>. Verification > </span>Add document
+    <% end %>
+  </h2>
 </div>
-
 <div class="d-flex justify-content-center box-shadow">
   <div class="steps d-flex justify-content-between pb-2 px-5 mb-2">
-    <div class="col-4 step-col first">
-      <div class="step text-muted completed"></div>
-      <small>Email</small>
+    <div class="col-3 step-col first">
+      <div class="step text-muted <%= step1_class %>"></div>
+      <small>1. Email</small>
     </div>
-    <div class="col-4 step-col">
-      <div class="step text-muted current"></div>
-      <small>Phone</small>
+    <div class="col-3 step-col">
+      <div class="step text-muted <%= step2_class %>"></div>
+      <small>2. Phone</small>
     </div>
-    <div class="col-4 step-col last">
-      <div class="step text-muted"></div>
-      <small>Document</small>
+    <div class="col-3 step-col">
+      <div class="step text-muted <%= step3_class %>"></div>
+      <small>3. Profile</small>
+    </div>
+    <div class="col-3 step-col last">
+      <div class="step text-muted <%= step4_class %>"></div>
+      <small>4. Document</small>
     </div>
   </div>
 </div>
-
-
 <div class="d-flex justify-content-center px-5 py-4">
-  <%= form_tag('/phones') do %>
-    <div class="form-group">
+  <%= form_tag('/settings/edit_profile/submit_edit_profile_form') do %>
+    <% if @step == 2%>
+      <div class="form-group">
         <%= label_tag :phone_number %>
-      <div class="row">
-        <div class="col-3">
-          <%= text_field_tag :country_code, nil, class: 'px-1 form-control form-control-lg underlined', placeholder: '+1' %>
-        </div>
-        <div class="col-6 pr-0">
-          <%= text_field_tag :number, nil, class: 'px-1 form-control form-control-lg underlined', placeholder: '000 000 0000' %>
-        </div>
-        <div class="col-3 pl-0">
-          <div class="send_code underlined">
-          <div class="loader"></div>
-            <a href="javascript:void(0)" id="send-code-btn">Send code</a>
+        <div class="row">
+          <div class="col-3">
+            <%= text_field_tag :country_code, nil, class: 'px-1 form-control form-control-lg underlined', placeholder: '+1' %>
+          </div>
+          <div class="col-6 pr-0">
+            <%= text_field_tag :number, nil, class: 'px-1 form-control form-control-lg underlined', placeholder: '000 000 0000' %>
+          </div>
+          <div class="col-3 pl-0">
+            <div class="send_code underlined">
+              <div class="loader"></div>
+              <a href="javascript:void(0)" id="send-code-btn">Send code</a>
+            </div>
+            <div id="error"></div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="form-group mt-4">
-      <%= label_tag 'SMS confirmation code' %>
-      <%= number_field_tag :code, nil, class: 'form-control form-control-lg underlined', placeholder: 'Enter code' %>
-    </div>
-
+      <div class="form-group mt-4">
+        <%= label_tag 'SMS confirmation code' %>
+        <%= number_field_tag :code, nil, class: 'form-control form-control-lg underlined', placeholder: 'Enter code' %>
+      </div>
+    <% elsif @step == 3%>
+      <div class="d-flex justify-content-center px-5 py-4">
+        <%= render 'form_profile', profile: @profile %>
+      </div>
+    <% end %>
     <div class="row d-flex justify-content-between mt-4">
       <div class="col-3">
-        <%= link_to 'Back', settings_path, class: 'btn btn-secondary text-white btn-block' %>
+        <%= submit_tag 'Back', class: 'btn btn-secondary text-white btn-block' %>
       </div>
       <div class="col-6"></div>
       <div class="col-3 text-right">
-        <%= link_to 'Submit', settings_phones_path, class: 'btn btn-outline-success btn-block', disabled: true %>
+        <%= submit_tag 'Submit', class: 'btn btn-outline-success btn-block', id: 'form_submit',  disabled: true %>
       </div>
-      <div id="error"></div>
     </div>
   <% end %>
+</div>
+<script>
+  window.onload = function () {
+  
+    $('#send-code-btn').on('click', function () {
+      $('.loader').css("display", "block");
+      $('#send-code-btn').hide();
+      number = $("#country_code").val() + $("#number").val();
+      $.ajax({
+        headers: { 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content') },
+        method:  'POST',
+        data:    { number: number },
+        url:     '/settings/edit_profile/send_code',
+        success: function(result) {
+          if (result.success){
+            $('.loader').css("display", "none");
+            $('#send-code-btn').show();
+            $("#form_submit").prop('disabled', false);
+            $("#send-code-btn").text('Resend');
+            if (result.message) {
+              $("#error").text(result.message);
+            } else {
+              $("#error").text('');
+            }
+          } else {
+            $('.loader').css("display", "none");
+            $('#send-code-btn').show();
+            $("#error").text(result.error);
+          }
+        },
+        error: function(result) {
+            $('.loader').css("display", "none");
+            $('#send-code-btn').show();
+            $("#form_submit").prop('disabled', false);
+             $("#error").text('There was an error sending the code');
+        }
+      });
+    });
+  
+    $('#code').on('input', function () {
+      codeValue = $('#code').val();
+      console.log("Inserting code: " + codeValue);
+      if (codeValue) {
+        $("#form_submit").prop('disabled', false);
+      } else {
+        $("#form_submit").prop('disabled', true);
+      }
+    });
+  
+  };
+</script>

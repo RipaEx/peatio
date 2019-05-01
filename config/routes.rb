@@ -31,9 +31,14 @@ Peatio::Application.routes.draw do
 
     namespace :settings do  
       get 'edit_profile' => 'edit_profile#index'
-      get 'phones' => 'edit_profile#step1'
-      get 'profiles' => 'edit_profile#step2'
-      get 'documents' => 'edit_profile#step3'
+#      get 'phones' => 'edit_profile#step1'
+#      get 'profiles' => 'edit_profile#step2'
+#      get 'documents' => 'edit_profile#step3'
+#      get 'next_step' => 'edit_profile#next_step'
+#      get 'previous_step' => 'edit_profile#previous_step'
+      post 'edit_profile/send_code', to: 'edit_profile#send_code'
+#      post 'edit_profile/phones_verification', to: 'edit_profile#verify_phone'
+      post 'edit_profile/submit_edit_profile_form', to: 'edit_profile#submit_edit_profile_form'
 #      resources :profiles,  only: %i[new create], controller: 'edit_profile'
 #      resources :documents, only: %i[new create], controller: 'edit_profile'
     end      

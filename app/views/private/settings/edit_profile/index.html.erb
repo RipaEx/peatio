@@ -55,9 +55,7 @@
         <%= number_field_tag :code, nil, class: 'form-control form-control-lg underlined', placeholder: 'Enter code' %>
       </div>
     <% elsif @step == 3%>
-      <div class="d-flex justify-content-center px-5 py-4">
-        <%= render 'form_profile', profile: @profile %>
-      </div>
+      <%= render 'form_profile', profile: @profile %>
     <% end %>
     <div class="row d-flex justify-content-between mt-4">
       <div class="col-3">

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Private
   module Settings
     class EditProfileController < BaseRequestProcessController
@@ -21,8 +22,8 @@ module Private
           @step = @@step
         end
         if @barongAccount.level == 2
-          @profile = OpenStruct.new
-          @profile.errors = []
+          @profile = Barong::Profile.new
+          Rails.logger.debug('Profile: ' + @profile.inspect)
         end
 =begin  
         redirect_to new_phone_path if @barongAccount.level == 1
@@ -250,7 +251,7 @@ module Private
                 barongAccountJSON = JSON.parse(response.body)
                 #Rails.logger.debug("Barong Account inspect: " + barongAccountJSON.inspect)
                 session[:barongAccount] = barongAccountJSON
-                @@barongAccount = OpenStruct.new
+                @@barongAccount = Barong::Account.new
                 @@barongAccount.uid = barongAccountJSON["uid"]
                 @@barongAccount.email = barongAccountJSON["email"]
                 @@barongAccount.role = barongAccountJSON["role"]

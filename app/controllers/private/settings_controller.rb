@@ -25,7 +25,7 @@ module Private
               barongAccountJSON = JSON.parse(response.body)
               Rails.logger.debug("Barong Account inspect: " + barongAccountJSON.inspect)
               session[:barongAccount] = barongAccountJSON
-              @barongAccount = OpenStruct.new
+              @barongAccount = Barong::Account.new
               @barongAccount.uid = barongAccountJSON["uid"]
               @barongAccount.email = barongAccountJSON["email"]
               @barongAccount.role = barongAccountJSON["role"]

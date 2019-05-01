@@ -10,39 +10,38 @@
 <% end %>
 <div class="row form-group">
   <div class="col-6">
-    <%= label_tag :first_name %>
-    <%= text_field_tag :first_name, id: :profile_first_name, class: "form-control form-control-lg underlined", placeholder: 'First name' %>
+    <%= label :profile_first_name, :first_name %>
+    <%= text_field :profile_first_name, :first_name, class: "form-control form-control-lg underlined", placeholder: 'First name' %>
   </div>
   <div class="col-6">
-    <%= label_tag :last_name %>
-    <%= text_field_tag :last_name, id: :profile_last_name, class: "form-control form-control-lg underlined", placeholder: 'Last name' %>
+    <%= label :profile_last_name, :last_name %>
+    <%= text_field :profile_last_name, :last_name, class: "form-control form-control-lg underlined", placeholder: 'Last name' %>
   </div>
 </div>
 <div class="row form-group mt-4">
   <div class="col-6">
-    <%= label_tag :dob, "Date of birth" %>
+    <%= label :dob, "Date of birth" %>
     <div class="down-arrow">
-      <%= text_field_tag :dob, id: :profile_dob, class: 'datepicker-toggle form-control form-control-lg underlined', 'data-date-format': 'yyyy-mm-dd', 'data-date-end-date': '-1d', placeholder: 'Date of birth' %>
+      <%= text_field :dob, :profile_dob, class: 'datepicker-toggle form-control form-control-lg underlined', 'data-date-format': 'yyyy-mm-dd', 'data-date-end-date': '-1d', placeholder: 'Date of birth' %>
     </div>
   </div>
   <div class="col-6">
-    <%= label_tag :country %>
-    <%= display_country %>
+    <%= label :profile_country, :country %>
   </div>
 </div>
 <div class="row form-group">
   <div class="col-12">
-    <%= label_tag :address %>
-    <%= text_field_tag :address, id: :profile_address, class: "form-control form-control-lg underlined", placeholder: 'Address' %>
+    <%= label :profile_address, :address %>
+    <%= text_field :profile_address, :address, class: "form-control form-control-lg underlined", placeholder: 'Address' %>
   </div>
 </div>
 <div class="row form-group">
   <div class="col-6">
-    <%= label_tag :city %>
-    <%= text_field_tag :city, id: :profile_city, class: "form-control form-control-lg underlined", placeholder: 'City' %>
+    <%= label :profile_city, :city %>
+    <%= text_field :profile_city, :city, class: "form-control form-control-lg underlined", placeholder: 'City' %>
   </div>
   <div class="col-6">
-    <%= label_tag :postcode %>
-    <%= text_field_tag :postcode, id: :profile_postcode, class: "form-control form-control-lg underlined", placeholder: 'Postcode' %>
+    <%= label :profile_postcode, :postcode %>
+    <%= text_field :profile_postcode, :postcode, class: "form-control form-control-lg underlined", placeholder: 'Postcode' %>
   </div>
 </div>

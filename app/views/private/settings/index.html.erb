@@ -73,7 +73,7 @@
       <p class="text-ignore"><%= t('.security.description') %></p>
     </td>
     <td class="col-xs-7 vertical-center">
-      <% if @barongAccount.otp_enabled? %>
+      <% if @barongAccount.otp_enabled == true %>
         <a href="#" class="btn btn-success btn-block" role="button"> 
           <i class="fa fa-check-circle">
             <span><%= t('.security.disable') %></span>

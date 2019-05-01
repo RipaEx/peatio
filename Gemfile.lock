@@ -99,8 +99,9 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.5)
-    countries (3.0.0)
+    countries (2.1.4)
       i18n_data (~> 0.8.0)
+      money (~> 6.9)
       sixarm_ruby_unaccent (~> 1.1)
       unicode_utils (~> 1.4)
     crack (0.4.3)
@@ -222,6 +223,8 @@ GEM
     minitest (5.11.3)
     mocha (1.8.0)
       metaclass (~> 0.0.1)
+    money (6.13.3)
+      i18n (>= 0.6.4, <= 2)
     multi_json (1.13.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
@@ -434,7 +437,7 @@ DEPENDENCIES
   cash-addr (~> 0.1.1)
   clipboard-rails (~> 1.7.1)
   coffee-rails (~> 4.2.2)
-  countries
+  countries (~> 2.1.4)
   database_cleaner (~> 1.6)
   debase
   digest-sha3 (~> 1.1.0)

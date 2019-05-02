@@ -3,10 +3,46 @@
 # Profile model
 module Barong
   class Profile
+    include ActiveModel::Model
+    include ActiveModel::Validations
+    include ActiveModel::Conversion
+    extend ActiveModel::Naming
+
+    validates :first_name, :last_name, :dob, :address,
+              :city, :country, :postcode, presence: true
+
+    validates :first_name, length: 2..255,
+                           format: {
+                             with: /\A[A-Za-z\s'-]+\z/,
+                             message: 'only allows letters "-", "\'", and space',
+                           },
+                           if: proc { |a| a.first_name.present? }
+    validates :last_name, length: 2..255,
+                          format: {
+                            with: /\A[A-Za-z\s'-]+\z/,
+                            message: 'only allows letters "-", "\'" and space',
+                          },
+                          if: proc { |a| a.last_name.present? }
+    validates :city, length: 2..255,
+                     format: {
+                       with: /\A[A-Za-z\s'-]+\z/,
+                     },
+                     if: proc { |a| a.city.present? }
+    validate :validate_country_format
+    validates :postcode, length: 2..255,
+                         format: { with: /\A[A-Z\d\s-]+\z/ },
+                         if: proc { |a| a.postcode.present? }
+
+    validates :address, format: { with: /\A[A-Za-z\d\s\.,']+\z/ },
+                        if: proc { |a| a.address.present? }
+
+    def persisted?
+      false
+    end
 
     attr_accessor :first_name, :last_name, :dob, :address, :city, :country, :postcode, :errors
 
-    def initialize(first_name = '', last_name = '', dob = '', address = '', city = '', country = '', postcode = '', errors = [])
+    def initialize(first_name = "", last_name = "", dob = "", address = "", city = "", country = "", postcode = "")
       @first_name = first_name
       @last_name = last_name
       @dob = dob
@@ -14,7 +50,7 @@ module Barong
       @city = city
       @country = country
       @postcode = postcode
-      @errors = errors
+      @errors = ActiveModel::Errors.new(self)
     end
 
     def full_name

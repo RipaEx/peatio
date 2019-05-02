@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="field col-12 ">
+    <label>Document upload</label>
+    <%= file_field :upload, id: :document_upload, class: 'dropify', 'data-allowed-file-extensions': 'png jpg jpeg pdf', 'data-max-file-size': '10M', 'data-default-file': false %>
+  <br/>
+</div>
+</div>
+<div class="row">
+  <div class="field col-6">
+    <%= label :doc_type, 'Document type' %>
+    <%= select(:doc_type, Barong::Document::TYPES, {id: :document_doc_type}, {class: 'form-control underlined'}) %>
+  </div>
+  <div class="field form-group">
+    <%= label :doc_expire, 'Document expiry' %>
+    <div class="down-arrow">
+      <%= text_field :doc_expire, id: :document_doc_expire, class: 'datepicker-toggle form-control underlined', 'data-date-format': 'yyyy-mm-dd', 'data-date-start-date': '+1d', placeholder: 'Expiry date' %>
+    </div>
+  </div>
+  <div class="field form-group col-12">
+    <%= label :doc_number, 'Document number' %>
+    <%= text_field :doc_number, id: :document_doc_number, class: 'px-1 form-control form-control-lg underlined', placeholder: 'AB123456' %>
+  </div>
+</div>

@@ -30,7 +30,7 @@
   </div>
 </div>
 <div class="d-flex justify-content-center px-5 py-4">
-  <%= form_tag('/settings/edit_profile/submit_edit_profile_form') do %>
+  <%= form_tag('/settings/edit_profile/submit_edit_profile_form') do |form| %>
     <% if @step == 2%>
       <div class="form-group">
         <%= label_tag :phone_number %>
@@ -55,7 +55,9 @@
         <%= number_field_tag :code, nil, class: 'form-control form-control-lg underlined', placeholder: 'Enter code' %>
       </div>
     <% elsif @step == 3%>
-      <%= render 'form_profile', profile: @profile %>
+      <%= render 'form_profile' %>
+    <% elsif @step == 4%>
+      <%= render 'form_document' %>
     <% end %>
     <div class="row d-flex justify-content-between mt-4">
       <div class="col-3">
@@ -70,6 +72,7 @@
 </div>
 <script>
   window.onload = function () {
+    $('.datepicker-toggle').datepicker();
   
     $('#send-code-btn').on('click', function () {
       $('.loader').css("display", "block");
@@ -108,7 +111,15 @@
   
     $('#code').on('input', function () {
       codeValue = $('#code').val();
-      console.log("Inserting code: " + codeValue);
+      if (codeValue) {
+        $("#form_submit").prop('disabled', false);
+      } else {
+        $("#form_submit").prop('disabled', true);
+      }
+    });
+
+    $('#profile_first_name').on('input', function () {
+      codeValue = $('#profile_first_name').val();
       if (codeValue) {
         $("#form_submit").prop('disabled', false);
       } else {

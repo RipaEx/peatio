@@ -10,7 +10,7 @@ module Barong
     include ActiveModel::Conversion
     extend ActiveModel::Naming
 
-    TYPES = ["Passport", "Identity card", "Driver license", "Utility Bill"].freeze
+    TYPES = ["Passport", "Identity card", "Driver license", "Bank Statement", "Card Statement", "Utility Bill"].freeze
     STATES = %w[verified pending rejected].freeze
 
     validates :doc_type, :doc_number, :doc_expire, :upload, presence: true
@@ -25,6 +25,20 @@ module Barong
                         with: /\A\d{4}\-\d{2}\-\d{2}\z/,
                         message: "Date must be in the following format: yyyy-mm-dd"
     validate :doc_expire_not_in_the_past
+
+    def persisted?
+      false
+    end
+
+    attr_accessor :doc_type, :doc_number, :doc_expire, :upload, :errors
+
+    def initialize(doc_type = "", doc_number = "", doc_expire = "", upload = nil)
+      @doc_type = doc_type
+      @doc_number = doc_number
+      @doc_expire = doc_expire
+      @upload = upload
+      @errors = ActiveModel::Errors.new(self)
+    end
 
     private
 

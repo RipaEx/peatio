@@ -6,6 +6,8 @@
       <span class="text-muted"><%= @step.to_s %>. Verification > </span>Fill in personal information
     <% elsif @step == 4%>
       <span class="text-muted"><%= @step.to_s %>. Verification > </span>Add document
+    <% elsif @step == 5%>
+      <span class="text-muted">Pending compliance officer approval</span>
     <% end %>
   </h2>
 </div>
@@ -30,7 +32,7 @@
   </div>
 </div>
 <div class="d-flex justify-content-center px-5 py-4">
-  <%= form_tag('/settings/edit_profile/submit_edit_profile_form') do |form| %>
+  <%= form_tag('/settings/edit_profile/submit_edit_profile_form', id: 'content_form', :multipart => true) do %>
     <% if @step == 2%>
       <div class="form-group">
         <%= label_tag :phone_number %>
@@ -58,23 +60,61 @@
       <%= render 'form_profile' %>
     <% elsif @step == 4%>
       <%= render 'form_document' %>
+    <% elsif @step == 5%>
+      <%= render 'form_success' %>
     <% end %>
-    <div class="row d-flex justify-content-between mt-4">
-      <div class="col-3">
-        <%= submit_tag 'Back', class: 'btn btn-secondary text-white btn-block' %>
+    <% if @step == 1 || @step == 2 || @step == 3 || @step == 4 %>
+      <div class="row d-flex justify-content-between mt-4">
+        <div class="col-3">
+          <%= submit_tag 'Back', class: 'btn btn-secondary text-white btn-block', id: 'form_back' %>
+        </div>
+        <div class="col-6"></div>
+        <div class="col-3 text-right">
+          <%= submit_tag 'Submit', class: 'btn btn-outline-success btn-block', id: 'form_submit', disabled: true %>
+        </div>
       </div>
-      <div class="col-6"></div>
-      <div class="col-3 text-right">
-        <%= submit_tag 'Submit', class: 'btn btn-outline-success btn-block', id: 'form_submit',  disabled: true %>
-      </div>
-    </div>
+    <% elsif @step == 5%>
+    <% end %>
   <% end %>
 </div>
 <script>
   window.onload = function () {
+   $('#form_submit').click(function() {
+        $('#content_process').block({ css: {
+            border: 'none',
+            padding: '15px',
+            backgroundColor: '#000',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: .5,
+            color: '#fff'
+        } });
+    });
+   $('#form_back').click(function() {
+        $('#content_process').block({ css: {
+            border: 'none',
+            padding: '15px',
+            backgroundColor: '#000',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: .5,
+            color: '#fff'
+        } });
+    });
+  
+    $('#content_process').unblock();
     $('.datepicker-toggle').datepicker();
   
     $('#send-code-btn').on('click', function () {
+        $('#content_process').block({ css: {
+            border: 'none',
+            padding: '15px',
+            backgroundColor: '#000',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: .5,
+            color: '#fff'
+        } });
       $('.loader').css("display", "block");
       $('#send-code-btn').hide();
       number = $("#country_code").val() + $("#number").val();
@@ -85,6 +125,7 @@
         url:     '/settings/edit_profile/send_code',
         success: function(result) {
           if (result.success){
+            $('#content_process').unblock();
             $('.loader').css("display", "none");
             $('#send-code-btn').show();
             $("#form_submit").prop('disabled', false);
@@ -101,6 +142,7 @@
           }
         },
         error: function(result) {
+            $('#content_process').unblock();
             $('.loader').css("display", "none");
             $('#send-code-btn').show();
             $("#form_submit").prop('disabled', false);
@@ -117,7 +159,7 @@
         $("#form_submit").prop('disabled', true);
       }
     });
-
+  
     $('#profile_first_name').on('input', function () {
       codeValue = $('#profile_first_name').val();
       if (codeValue) {
@@ -127,5 +169,19 @@
       }
     });
   
+    $('#document_doc_number').on('input', function () {
+      codeValue = $('#document_doc_number').val();
+      if (codeValue) {
+        $("#form_submit").prop('disabled', false);
+      } else {
+        $("#form_submit").prop('disabled', true);
+      }
+    });
+  
+    $('.dropify').dropify({
+        tpl: {
+            message:  '<div class="dropify-message"> <p>{{ default }}</p> </div>',
+        }
+    });
   };
 </script>

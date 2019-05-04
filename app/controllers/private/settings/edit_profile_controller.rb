@@ -6,6 +6,7 @@ module Private
       before_action :read_barong_account
       @@barongAccount
       @@barongAccountProfile
+      @@barongAccountDocuments
       @@first_call = true
       @@step = 1
       @@authorizationCode = ""
@@ -21,11 +22,14 @@ module Private
           @@first_call = false
           if @barongAccount.level == 2
             @@barongAccountProfile = read_barong_profile
-            Rails.logger.debug('readBarongProfileResult: ' + @@barongAccountProfile.inspect)
             if @@barongAccountProfile.success == true
               @step = @@step = 4
+              @@barongAccountDocuments = read_barong_documents
+              if @@barongAccountDocuments.success == true
+                @step = @@step = 5
+              end
             end
-          end  
+          end
         else
           @step = @@step
         end
@@ -72,65 +76,14 @@ module Private
         end
       end
 
-      def verify_phone(_phoneNumber, _code)
-        result = OpenStruct.new
-        result.success = false
-        if ENV["BARONG_DOMAIN"]
-          if !current_user.nil?
-            currentUserAuth = Authentication.find_by!(provider: "barong", member_id: current_user.id)
-            if !currentUserAuth.token.nil?
-              # set variables
-              barongBaseURL = ENV.fetch("BARONG_DOMAIN")
-              apiURL = "/api/v1/phones/verify"
-              token = "Bearer " + currentUserAuth.token
-              # init connection object
-              connection = Faraday.new(:url => barongBaseURL) do |c|
-                c.use Faraday::Request::UrlEncoded
-                c.use Faraday::Adapter::NetHttp
-              end
-              # send request
-              response = connection.post apiURL do |request|
-                request.headers["Authorization"] = token
-                request.params["phone_number"] = _phoneNumber
-                request.params["verification_code"] = _code
-              end
-              if !response.nil?
-                Rails.logger.debug("Response Inspect: " + response.inspect)
-                if response.status >= 200 && response.status <= 299 && valid_json?(response.body)
-                  Rails.logger.debug("Response Body Inspect: " + response.body.inspect)
-                  responseJSON = JSON.parse(response.body)
-                  if responseJSON["error"]
-                    result.message = responseJSON["error"]
-                  else
-                    result.success = true
-                    result.message = responseJSON["message"]
-                  end
-                elsif response.status >= 300 && response.status <= 599 && valid_json?(response.body)
-                  Rails.logger.debug("Response Body Inspect: " + response.body.inspect)
-                  responseJSON = JSON.parse(response.body)
-                  if responseJSON["error"]
-                    result.message = responseJSON["error"]
-                  else
-                    result.message = response.reason_phrase
-                  end
-                else
-                  result.message = response.reason_phrase
-                end
-              end
-            end
-          end
-        end
-        return result
-      end
-
       def submit_edit_profile_form
         commitParameter = params[:commit]
-        if commitParameter == "Back"
-          # A was pressed
+        if commitParameter == "Back" || commitParameter == "Settings"
           previous_step
         elsif commitParameter == "Submit"
-          # B was pressed
           next_step(params)
+        elsif commitParameter == "Trade"
+          redirect_to trading_path(market_id: 'btcusd')
         end
       end
 
@@ -143,6 +96,8 @@ module Private
         elsif @@step == 3
           return "completed"
         elsif @@step == 4
+          return "completed"
+        elsif @@step == 5
           return "completed"
         end
       end
@@ -157,6 +112,8 @@ module Private
           return "completed"
         elsif @@step == 4
           return "completed"
+        elsif @@step == 5
+          return "completed"
         end
       end
 
@@ -169,6 +126,8 @@ module Private
         elsif @@step == 3
           return "current"
         elsif @@step == 4
+          return "completed"
+        elsif @@step == 5
           return "completed"
         end
       end
@@ -183,14 +142,17 @@ module Private
           return ""
         elsif @@step == 4
           return "current"
+        elsif @@step == 5
+          return "completed"
         end
       end
 
       private
 
-      def next_step(params)  
+      def next_step(params)
         result = OpenStruct.new
         result.success = false
+        result.redirect = false
         if @@step == 1
           #Confirm e-mail
         elsif @@step == 2
@@ -211,18 +173,36 @@ module Private
           Rails.logger.debug("Create Profile Result: " + result.inspect)
         elsif @@step == 4
           #Upload document
+          document = params["document"]
+          if !document[:upload].nil?
+            barongDocument = Barong::Document.new(document[:doc_type], document[:doc_number], document[:doc_expire], document[:upload])
+            result = upload_document(barongDocument)
+            Rails.logger.debug("Upload Document Result: " + result.inspect)
+          else
+            result.message = 'A File must be uploaded'
+          end
+        elsif @@step == 5
+          @@first_call = true
+          result.redirect = true
         end
         if result.success
           @@step += 1
-          Rails.logger.debug("Step: " + @@step.to_s)
-          if @@step > 4
+          if @@step > 5
             @@first_call = true
-            redirect_to settings_path
+            result.redirect = true
           end
         else
           flash[:alert] = result.message
         end
-        redirect_to settings_edit_profile_path
+        next_step_redirect(result)
+      end
+
+      def next_step_redirect(redirect)
+        if redirect.redirect
+          redirect_to settings_path
+        else
+          redirect_to settings_edit_profile_path
+        end
       end
 
       def previous_step
@@ -255,16 +235,16 @@ module Private
                 request.headers["Authorization"] = token
               end
               if !response.nil?
-                barongAccountJSON = JSON.parse(response.body)
-                #Rails.logger.debug("Barong Account inspect: " + barongAccountJSON.inspect)
-                session[:barongAccount] = barongAccountJSON
-                @@barongAccount = Barong::Account.new
-                @@barongAccount.uid = barongAccountJSON["uid"]
-                @@barongAccount.email = barongAccountJSON["email"]
-                @@barongAccount.role = barongAccountJSON["role"]
-                @@barongAccount.level = barongAccountJSON["level"]
-                @@barongAccount.otp_enabled = barongAccountJSON["otp_enabled"]
-                @@barongAccount.state = barongAccountJSON["state"]
+                if response.status >= 200 && response.status <= 299 && valid_json?(response.body)
+                  barongAccountJSON = JSON.parse(response.body)
+                  @@barongAccount = Barong::Account.new
+                  @@barongAccount.uid = barongAccountJSON["uid"]
+                  @@barongAccount.email = barongAccountJSON["email"]
+                  @@barongAccount.role = barongAccountJSON["role"]
+                  @@barongAccount.level = barongAccountJSON["level"]
+                  @@barongAccount.otp_enabled = barongAccountJSON["otp_enabled"]
+                  @@barongAccount.state = barongAccountJSON["state"]
+                end
               end
             end
           end
@@ -293,8 +273,40 @@ module Private
                 request.headers["Authorization"] = token
               end
               if !response.nil?
-                Rails.logger.debug("Profile: " + response.inspect)
                 if response.status >= 200 && response.status <= 299 && valid_json?(response.body)
+                  result.success = true
+                end
+              end
+            end
+          end
+        end
+        return result
+      end
+
+      def read_barong_documents
+        result = OpenStruct.new
+        result.success = false
+        result.document = Barong::Document.new
+        if ENV["BARONG_DOMAIN"]
+          if !current_user.nil?
+            currentUserAuth = Authentication.find_by!(provider: "barong", member_id: current_user.id)
+            if !currentUserAuth.token.nil?
+              # set variables
+              barongBaseURL = ENV.fetch("BARONG_DOMAIN")
+              apiURL = "/api/v1/documents"
+              token = "Bearer " + currentUserAuth.token
+              # init connection object
+              connection = Faraday.new(:url => barongBaseURL) do |c|
+                c.use Faraday::Request::UrlEncoded
+                c.use Faraday::Adapter::NetHttp
+              end
+              # send request
+              response = connection.get apiURL do |request|
+                request.headers["Authorization"] = token
+              end
+              if !response.nil?
+                if response.status >= 200 && response.status <= 299 && valid_json?(response.body)
+                  barongDocumentsJSON = JSON.parse(response.body)
                   result.success = true
                 end
               end
@@ -353,10 +365,111 @@ module Private
         return result
       end
 
+      def upload_document(_document)
+        result = OpenStruct.new
+        result.success = false
+        if ENV["BARONG_DOMAIN"]
+          if !current_user.nil?
+            currentUserAuth = Authentication.find_by!(provider: "barong", member_id: current_user.id)
+            if !currentUserAuth.token.nil?
+              # set variables
+              barongBaseURL = ENV.fetch("BARONG_DOMAIN")
+              apiURL = "/api/v1/documents"
+              token = "Bearer " + currentUserAuth.token
+              # init connection object
+              connection = Faraday.new(:url => barongBaseURL) do |c|
+                c.use Faraday::Request::Multipart
+                c.use Faraday::Request::UrlEncoded
+                c.use Faraday::Adapter::NetHttp
+              end
+              request_data = {
+                :doc_type => _document.doc_type,
+                :doc_number => _document.doc_number,
+                :doc_expire => _document.doc_expire,
+                :upload => Faraday::UploadIO.new(_document.upload.path, _document.upload.content_type, _document.upload.original_filename)
+              }
+              # send request
+              response = connection.post apiURL do |request|
+                request.headers["Authorization"] = token
+                request.body = request_data
+              end
+              if !response.nil?
+                if response.status >= 200 && response.status <= 299 && valid_json?(response.body)
+                  result.success = true
+                  result.message = response.reason_phrase
+                elsif response.status >= 300 && response.status <= 599 && valid_json?(response.body)
+                  Rails.logger.debug("Response Body Inspect: " + response.body.inspect)
+                  responseJSON = JSON.parse(response.body)
+                  if responseJSON["error"]
+                    result.message = responseJSON["error"]
+                  else
+                    result.message = response.reason_phrase
+                  end
+                else
+                  result.message = response.reason_phrase
+                end
+              end
+            end
+          end
+        end
+        return result
+      end
+
+      def verify_phone(_phoneNumber, _code)
+        result = OpenStruct.new
+        result.success = false
+        if ENV["BARONG_DOMAIN"]
+          if !current_user.nil?
+            currentUserAuth = Authentication.find_by!(provider: "barong", member_id: current_user.id)
+            if !currentUserAuth.token.nil?
+              # set variables
+              barongBaseURL = ENV.fetch("BARONG_DOMAIN")
+              apiURL = "/api/v1/phones/verify"
+              token = "Bearer " + currentUserAuth.token
+              # init connection object
+              connection = Faraday.new(:url => barongBaseURL) do |c|
+                c.use Faraday::Request::UrlEncoded
+                c.use Faraday::Adapter::NetHttp
+              end
+              # send request
+              response = connection.post apiURL do |request|
+                request.headers["Authorization"] = token
+                request.params["phone_number"] = _phoneNumber
+                request.params["verification_code"] = _code
+              end
+              if !response.nil?
+                Rails.logger.debug("Response Inspect: " + response.inspect)
+                if response.status >= 200 && response.status <= 299 && valid_json?(response.body)
+                  Rails.logger.debug("Response Body Inspect: " + response.body.inspect)
+                  responseJSON = JSON.parse(response.body)
+                  if responseJSON["error"]
+                    result.message = responseJSON["error"]
+                  else
+                    result.success = true
+                    result.message = responseJSON["message"]
+                  end
+                elsif response.status >= 300 && response.status <= 599 && valid_json?(response.body)
+                  Rails.logger.debug("Response Body Inspect: " + response.body.inspect)
+                  responseJSON = JSON.parse(response.body)
+                  if responseJSON["error"]
+                    result.message = responseJSON["error"]
+                  else
+                    result.message = response.reason_phrase
+                  end
+                else
+                  result.message = response.reason_phrase
+                end
+              end
+            end
+          end
+        end
+        return result
+      end
+
       def valid_json?(json)
         if json.nil?
           return false
-        end        
+        end
         JSON.parse(json)
         return true
       rescue JSON::ParserError => e

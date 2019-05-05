@@ -1,10 +1,10 @@
 <div class="alert alert-success">
   <div class="row">
     <div class="field col-12 text-center">
-      <h3 class="wrap">Your information were correctly sent to the RipaEx compliance department and currently reviews for approval. Keep checking Your settings area to have more information on Your verification approval.</h3>
+      <h3 class="wrap"><%= t('private.settings.edit_profile.confirm.success') %></h3>
       <br/><br/><br/>
       <p>
-        By now You can go back to the Settings screen or start Trading: what do You want to do next??
+        <%= t('private.settings.edit_profile.confirm.go_next') %>
       </p>
       <br/><br/><br/>
     </div>
@@ -12,11 +12,11 @@
   <div class="row d-flex justify-content-between mt-4">  
     <div class="col-2"></div>
     <div class="col-3">
-      <%= submit_tag 'Settings', class: 'btn btn-secondary text-white btn-block', id: 'form_back_success' %>
+      <%= submit_tag t('private.settings.edit_profile.confirm.back_button'), class: 'btn btn-secondary text-white btn-block', id: 'form_back_success' %>
     </div>
     <div class="col-2"></div>
     <div class="col-3 text-right">
-      <%= submit_tag 'Trade', class: 'btn btn-success btn-block', id: 'form_submit_success'%>
+      <%= submit_tag t('private.settings.edit_profile.confirm.submit_button'), class: 'btn btn-success btn-block', id: 'form_submit_success'%>
     </div>
     <div class="col-2"></div>
   </div>

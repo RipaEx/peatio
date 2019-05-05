@@ -396,6 +396,18 @@ en:
             description: Create and manage your API tokens.
             go: Set
             soon: Available Soon
+        change_password:
+          confirm: 
+            success: "Your password has successfully changed."
+            go_next: "By now You can go back to the Security screen: what do You want to do next??" 
+            submit_button: Security
+      edit_profile:
+        confirm: 
+          success: "Your information were correctly sent to the RipaEx compliance department and currently reviews for approval. Keep checking Your settings area to have more information on Your verification approval."
+          go_next: "By now You can go back to the Settings screen or start Trading: what do You want to do next??" 
+          back_button: Settings
+          submit_button: Trade
+
   guides:
     private:
       settings:

@@ -33,16 +33,54 @@ module ApplicationHelper
     "#{controller_name}-#{action_name}"
   end
 
+  def settings_profile_active
+    if !controller_path.nil? && controller_path.eql?('private/settings')
+      return 'active'
+    end
+  end
+
+  def settings_payee_active
+    if !controller_path.nil? && controller_path.eql?('private/settings/payee_list')
+      return 'active'
+    end
+  end
+
+  def settings_security_active
+    if !controller_path.nil? && controller_path.eql?('private/settings/security')
+      return 'active'
+    end
+  end
+
+  def settings_notifications_active
+    if !controller_path.nil? && controller_path.eql?('private/settings/notifications')
+      return 'active'
+    end
+  end
+
+  def settings_mobile_active
+    if !controller_path.nil? && controller_path.eql?('private/settings/mobile')
+      return 'active'
+    end
+  end
+
   def guide_panel_title
-    @guide_panel_title || t("guides.#{i18n_controller_path}.#{action_name}.panel", default: t("guides.#{i18n_controller_path}.panel"))
+    Rails.logger.debug("i18n_controller_path: " + i18n_controller_path)
+    i18n_controller_path_converted = i18n_controller_path
+    if i18n_controller_path_converted.eql?('private.settings')
+      i18n_controller_path_converted = 'private.profile'
+    end
+    @guide_panel_title || t("guides.#{i18n_controller_path_converted}.#{action_name}.panel", default: t("guides.#{i18n_controller_path_converted}.panel"))
   end
 
   def guide_title
-    @guide_title || t("guides.#{i18n_controller_path}.#{action_name}.title", default: t("guides.#{i18n_controller_path}.panel"))
+    Rails.logger.info("")
+    i18n_controller_path_converted = i18n_controller_path
+    @guide_title || t("guides.#{i18n_controller_path_converted}.#{action_name}.title", default: t("guides.#{i18n_controller_path_converted}.panel"))
   end
 
   def guide_intro
-    @guide_intro || t("guides.#{i18n_controller_path}.#{action_name}.intro", default: t("guides.#{i18n_controller_path}.intro", default: ''))
+    i18n_controller_path_converted = i18n_controller_path
+    @guide_intro || t("guides.#{i18n_controller_path_converted}.#{action_name}.intro", default: t("guides.#{i18n_controller_path_converted}.intro", default: ''))
   end
 
   def i18n_controller_path

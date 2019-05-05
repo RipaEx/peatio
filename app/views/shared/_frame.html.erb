@@ -2,27 +2,51 @@
   <% if content_for?(:before) %>
     <%= yield(:before) %>
   <% end %>
+  <ul class="nav nav-tabs justify-content-center">
+    <li class="nav-item">
+      <a class="nav-link <%= settings_profile_active %>" href="/settings">Profile</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <%= settings_payee_active %>" href="#">Payee List</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <%= settings_security_active %>" href="/settings/security">Security</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <%= settings_notifications_active %>" href="#">Notifications</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <%= settings_mobile_active %>" href="#">Mobile</a>
+    </li>
+  </ul>
   <div class="card card-default">
     <div class="card-header">
       <h2 class="card-title"><%= guide_panel_title %></h2>
     </div>
     <div class="card-body">
       <div class="row">
-        <div id="guide" class="col-4">
-          <% if content_for?(:guide_title) %>
-            <%= yield(:guide_title) %>
-          <% else %>
-            <h3><%= guide_title %></h3>
-          <% end %>
-          <p class="text-ignore"><%= guide_intro %></p>
-          <% if content_for?(:guide) %>
-            <%= yield(:guide) %>
-          <% end %>
-        </div>
-        <div id="content" class="col-8">
-          <%= render 'shared/flash' %>
-          <%= yield %>
-        </div>
+        <% if content_for?(:no_split) %>
+          <div id="content_no_split" class="col-12">
+            <%= render 'shared/flash' %>
+            <%= yield(:no_split) %>
+          </div>
+        <% else %>
+          <div id="guide" class="col-4">
+            <% if content_for?(:guide_title) %>
+              <%= yield(:guide_title) %>
+            <% else %>
+              <h3><%= guide_title %></h3>
+            <% end %>
+            <p class="text-ignore"><%= guide_intro %></p>
+            <% if content_for?(:guide) %>
+              <%= yield(:guide) %>
+            <% end %>
+          </div>
+          <div id="content" class="col-8">
+            <%= render 'shared/flash' %>
+            <%= yield %>
+          </div>
+        <% end %>
       </div>
       <% if content_for?(:secondary) %>
         <%= yield(:secondary) %>

@@ -1,0 +1,65 @@
+<% content_for :no_split do %>
+  <table class="table" id="setting_security_list">
+    <tr>
+      <td class="col-xs-2 text-center vertical-center">
+        <i class="fas fa-key fa-2x"> </i>
+      </td>
+      <td class="col-xs-15">
+        <h4>
+          <span><%= t(".passwords.title") %></span>
+        </h4>
+        <p class="text-ignore"><%= t('.passwords.description') %></p>
+      </td>
+      <td class="col-xs-7 vertical-center">
+        <%= link_to t('.passwords.go'), settings_security_change_password_path, class: 'btn btn-primary btn-block', role: 'button'%>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-xs-2 text-center vertical-center">
+        <i class="fas fa-unlock-alt fa-2x"> </i>
+      </td>
+      <td class="col-xs-15">
+        <h4>
+          <% if @barongAccount.otp_enabled == true %>
+            <span><%= t(".2fa.title") %>: <%= t(".2fa.enabled") %></span>
+          <% else %>
+            <span><%= t(".2fa.title") %>: <%= t(".2fa.disabled") %></span>
+            <i class="fa fa-bolt text-warning"></i>
+          <% end %>
+        </h4>
+        <p class="text-ignore"><%= t('.2fa.description') %></p>
+      </td>
+      <td class="col-xs-7 vertical-center">
+        <% if @barongAccount.otp_enabled == true %>
+          <a href="#" class="btn btn-success btn-block" role="button">
+            <i class="fa fa-check-circle">
+              <span><%= t('.2fa.disable') %></span>
+            </i>
+          </a>
+        <% else %>
+          <a href="#" class="btn btn-primary btn-block" role="button">
+            <span><%= t('.2fa.enable') %></span>
+          </a>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-xs-2 text-center vertical-center">
+        <i class="fas fa-code fa-2x"> </i>
+      </td>
+      <td class="col-xs-15">
+        <h4>
+          <span><%= t(".api_tokens.title") %></span>
+        </h4>
+        <p class="text-ignore"><%= t('.api_tokens.description') %></p>
+      </td>
+      <td class="col-xs-7 vertical-center">
+        <a href="#" class="btn btn-warning btn-block disabled" role="button">
+          <i class="far fa-clock">
+            <span><%= t('.api_tokens.soon') %></span>
+          </i>
+        </a>
+      </td>
+    </tr>
+  </table>
+<% end %>

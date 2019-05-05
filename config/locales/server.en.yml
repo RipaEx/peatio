@@ -360,12 +360,6 @@ en:
           go: Set
           verified: Verified
           hint: "Verified number %{hint}"
-        two_factor_auth:
-          title: Two-Factor Authentication
-          description: Two-Factor Authentication provides another layer of security
-            to your account.
-          enable: Enable
-          disable: Disable
         verification:
           title: Verify Account - Level
           description: Help keep the bad guys out of your account by using both your
@@ -378,25 +372,30 @@ en:
             It is strongly recommended that you do not use the same password as your
             account password!
           go: Set
-        passwords:
-          title: Password
-          description: This password is required for login, please remember it.
-          go: Change Password
-          set: Set
-        security:
-          title: Security - 2FA
-          description: Two-Factor Authentication provides another layer of security to your account. Change Your account password. Enable API keys.
-          enable: Enable
-          disable: Disable
-          go: Submit
-        api_tokens:
-          title: API Tokens
-          description: Create and manage your API tokens.
-          go: Set
         referral:
           title: Referral Program
           description: To start earning BTC just invite someone to signup on RipaEx with that code. It's easy. Click on button to copy to clipboard and share code with your friends.
           go: Available Soon
+      security:
+        index:
+          2fa:
+            title: Security - 2FA
+            description: Two-Factor Authentication provides another layer of security to your account.
+            enable: Enable
+            disable: Disable
+            enabled: enabled
+            disabled: disabled
+            go: Submit
+          passwords:
+            title: Password
+            description: This password is required for login, please remember it.
+            go: Change Password
+            set: Set
+          api_tokens:
+            title: API Tokens
+            description: Create and manage your API tokens.
+            go: Set
+            soon: Available Soon
   guides:
     private:
       settings:
@@ -407,6 +406,12 @@ en:
           panel: Verify Your Profile
           index:
             intro: Admin and revise your profile.          
+        security:
+          panel: Security
+          index:
+            intro: Admin and revise your profile.
+          change_password:
+            panel: Change Login Password
       profile:
         panel: Profile
         index:

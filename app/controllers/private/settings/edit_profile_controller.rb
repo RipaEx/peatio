@@ -14,6 +14,7 @@ module Private
       helper_method :step2_class
       helper_method :step3_class
       helper_method :step4_class
+      helper_method :step5_class
 
       def index
         @barongAccount = @@barongAccount
@@ -80,12 +81,14 @@ module Private
 
       def submit_edit_profile_form
         commitParameter = params[:commit]
-        if commitParameter == "Back" || commitParameter == "Settings"
+        if commitParameter == "Back"
           previous_step
         elsif commitParameter == "Submit"
           next_step(params)
         elsif commitParameter == "Trade"
           redirect_to trading_path(market_id: 'btcusd')
+        elsif commitParameter == "Settings"
+          redirect_to settings_path
         end
       end
 
@@ -146,6 +149,21 @@ module Private
           return "current"
         elsif @@step == 5
           return "completed"
+        end
+      end
+
+      def step5_class
+        #completed current
+        if @@step == 1
+          return ""
+        elsif @@step == 2
+          return ""
+        elsif @@step == 3
+          return ""
+        elsif @@step == 4
+          return ""
+        elsif @@step == 5
+          return "current"
         end
       end
 

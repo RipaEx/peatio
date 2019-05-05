@@ -17,6 +17,8 @@ module Private
 
       def index
         @barongAccount = @@barongAccount
+        @@barongAccountProfile = OpenStruct.new
+        @@barongAccountProfile.success = false
         if @@first_call
           @step = @@step = @barongAccount.level.to_i + 1
           @@first_call = false

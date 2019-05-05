@@ -407,6 +407,14 @@ en:
           panel: Verify Your Profile
           index:
             intro: Admin and revise your profile.          
+      profile:
+        panel: Profile
+        index:
+          intro: Admin and revise your profile.
+        edit_profile:
+          panel: Verify Your Profile
+          index:
+            intro: Admin and revise your profile.          
     panels:
       balance: Account
     sessions:
@@ -632,13 +640,13 @@ en:
     market: Trade
     settings: Profile
     signout: Exit
-    funds: Funds
+    funds: Deposit/Withdraw
     getstart: Markets
     history: History
     order_history: Order History
     trade_history: Trade History
     account_history: Account History
-    my_profile: My Profile
+    my_profile: Settings
     back: Back
     total: Total
     deposit: Deposit

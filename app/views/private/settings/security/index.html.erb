@@ -22,6 +22,7 @@
         <h4>
           <% if @barongAccount.otp_enabled == true %>
             <span><%= t(".2fa.title") %>: <%= t(".2fa.enabled") %></span>
+            <i class="fas fa-check text-success"></i>
           <% else %>
             <span><%= t(".2fa.title") %>: <%= t(".2fa.disabled") %></span>
             <i class="fa fa-bolt text-warning"></i>
@@ -31,15 +32,9 @@
       </td>
       <td class="col-xs-7 vertical-center">
         <% if @barongAccount.otp_enabled == true %>
-          <a href="#" class="btn btn-success btn-block" role="button">
-            <i class="fa fa-check-circle">
-              <span><%= t('.2fa.disable') %></span>
-            </i>
-          </a>
+          <%= link_to t('.2fa.disable'), settings_security_two_fa_disable_path, class: 'btn btn-primary btn-block', role: 'button'%>
         <% else %>
-          <a href="#" class="btn btn-primary btn-block" role="button">
-            <span><%= t('.2fa.enable') %></span>
-          </a>
+          <%= link_to t('.2fa.enable'), settings_security_two_fa_path, class: 'btn btn-primary btn-block', role: 'button'%>
         <% end %>
       </td>
     </tr>

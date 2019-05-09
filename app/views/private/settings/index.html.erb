@@ -45,7 +45,11 @@
     <td class="col-xs-15">
       <h4>
         <span><%= t(".verification.title") %>: <%= @barongAccount.level %></span>
-        <i class="fa fa-bolt text-warning"></i>
+        <% if @barongAccount.level == 1 ||  @barongAccount.level == 2 %>
+          <i class="fa fa-bolt text-warning"></i>
+        <% elsif @barongAccount.level == 3 %>
+          <i class="fas fa-check text-success"></i>
+        <% end %>
       </h4>
       <p class="text-ignore"><%= t('.verification.description') %></p>
     </td>

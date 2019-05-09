@@ -401,6 +401,15 @@ en:
             success: "Your password has successfully changed."
             go_next: "By now You can go back to the Security screen: what do You want to do next??" 
             submit_button: Security
+        2fa:
+          confirm: 
+            success: "2FA has successfully enabled in Your account."
+            go_next: "By now You can go back to the Security screen: what do You want to do next??" 
+            submit_button: Security
+          confirm_disable: 
+            success: "2FA has successfully disabled in Your account."
+            go_next: "By now You can go back to the Security screen: what do You want to do next??" 
+            submit_button: Security
       edit_profile:
         confirm: 
           success: "Your information were correctly sent to the RipaEx compliance department and currently reviews for approval. Keep checking Your settings area to have more information on Your verification approval."
@@ -424,6 +433,8 @@ en:
             intro: Admin and revise your profile.
           change_password:
             panel: Change Login Password
+          two_fa: 
+            panel: Enable/Disable 2FA
       profile:
         panel: Profile
         index:
